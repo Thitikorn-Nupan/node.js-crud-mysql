@@ -1,14 +1,16 @@
-const serviceModuleRest = require('../service/service-module-rest')
-class ConfigDatabase extends serviceModuleRest {
+const ModulesService = require('../services/modules-service')
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') ,debug : true });
+
+class DatabaseConfig extends ModulesService {
     #infoDatabase = {
-        h : "127.0.0.1" ,
-        u : "root" ,
-        p : "12345" ,
-        port : "3306" ,
-        d : "bookstore"
+        h : process.env.h ,
+        u : process.env.u ,
+        p : process.env.p ,
+        port : process.env.pt ,
+        d : process.env.d
     }
     #mysql = require('mysql2');
-
     connectDatabase () {
        return this.#mysql.createConnection({
             host : this.#infoDatabase.h,
@@ -20,13 +22,11 @@ class ConfigDatabase extends serviceModuleRest {
     }
 }
 
-module.exports = ConfigDatabase
-/*
+module.exports = DatabaseConfig
 
-let c = new ConfigDatabase()
+/*let c = new DatabaseConfig()
 c.connectDatabase().connect(function (errors) {
     if (errors) console.log(errors.message)
     else console.log('connected')
-})
+})*/
 
-*/

@@ -1,16 +1,14 @@
-const serviceDirectSql = require('./service-direct-sql')
-class ServiceModuleRest extends serviceDirectSql {
+const DirectSqlService = require('./direct-sql-service')
 
+class ModulesService extends DirectSqlService {
     #express = require('express')
     #bodyParser = require('body-parser')
-
     get express() {
         return this.#express;
     }
-
     get bodyParser() {
         return this.#bodyParser;
     }
 }
 
-module.exports = ServiceModuleRest
+module.exports = ModulesService
