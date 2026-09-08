@@ -1,10 +1,11 @@
-const endpoint = require('../controller/endpoint')
+const endpoint = require('../controller/endpoint-control')
 const ModulesService = require('../services/modules-service');
+const log = require('../log/logging').logger;
 
 const ModulesServiceInstead = new ModulesService()
 const express = ModulesServiceInstead.express // called method get
 const bodyParser = ModulesServiceInstead.bodyParser
-const port = process.env.PORT || 8080;
+const port = 3000;
 
 // set default for post rest api
 const application = express()
@@ -20,9 +21,9 @@ application.delete('/api/delete/(:id)',endpoint.deleteById)
 
 application.listen(port ,(errors) => {
     if (!errors) {
-        console.log(`You're in port ${port}`)
+       log.debug(`You're in port ${port}`)
     }
     else {
-        console.log(errors.message)
+        log.debug(errors.message)
     }
 })

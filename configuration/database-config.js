@@ -1,32 +1,35 @@
 const ModulesService = require('../services/modules-service')
+const log = require('../log/logging').logger
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') ,debug : true });
+const mysql = require('mysql2')
+
+require('dotenv').config({path: path.resolve(__dirname, '../.env'), debug: true});
 
 class DatabaseConfig extends ModulesService {
     #infoDatabase = {
-        h : process.env.h ,
-        u : process.env.u ,
-        p : process.env.p ,
-        port : process.env.pt ,
-        d : process.env.d
+        host: process.env['host'],
+        username: process.env['m_username'],
+        password: process.env['password'],
+        port: process.env['port'],
+        database: process.env['database']
     }
-    #mysql = require('mysql2');
-    connectDatabase () {
-       return this.#mysql.createConnection({
-            host : this.#infoDatabase.h,
-            user : this.#infoDatabase.u,
-            password : this.#infoDatabase.p ,
-            port : this.#infoDatabase.port ,
-            database : this.#infoDatabase.d
-       })
+    connectDatabase() {
+        // log.debug(JSON.stringify(this.#infoDatabase))
+        return mysql.createConnection({
+            host: this.#infoDatabase.host,
+            user: this.#infoDatabase.username,
+            password: this.#infoDatabase.password,
+            port: this.#infoDatabase.port,
+            database: this.#infoDatabase.database,
+        })
     }
 }
 
 module.exports = DatabaseConfig
 
-/*let c = new DatabaseConfig()
-c.connectDatabase().connect(function (errors) {
-    if (errors) console.log(errors.message)
-    else console.log('connected')
+
+/**new DatabaseConfig().connectDatabase(function (errors) {
+    if (errors) log.debug(errors.message)
+    else log.debug('connected')
 })*/
 

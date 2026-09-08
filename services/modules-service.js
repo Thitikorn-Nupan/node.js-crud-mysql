@@ -1,13 +1,16 @@
 const DirectSqlService = require('./direct-sql-service')
+const express = require('express');
+const bodyParser = require('body-parser');
 
 class ModulesService extends DirectSqlService {
-    #express = require('express')
-    #bodyParser = require('body-parser')
+    // can do
+    // #express = require('express')
+    // #bodyParser = require('body-parser')
     get express() {
-        return this.#express;
+        return express;
     }
     get bodyParser() {
-        return this.#bodyParser;
+        return bodyParser;
     }
 }
 
