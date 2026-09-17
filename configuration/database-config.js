@@ -1,7 +1,10 @@
 const ModulesService = require('../services/modules-service')
-const log = require('../log/logging').logger
-const path = require('path');
 const mysql = require('mysql2')
+const path = require('path');
+const filename = path.basename(__filename);
+const {createLogger} = require('../log/logging-v2')
+
+const log = createLogger(filename);
 
 require('dotenv').config({path: path.resolve(__dirname, '../.env'), debug: true});
 
@@ -14,7 +17,7 @@ class DatabaseConfig extends ModulesService {
         database: process.env['database']
     }
     connectDatabase() {
-        // log.debug(JSON.stringify(this.#infoDatabase))
+        log.debug(JSON.stringify(this.#infoDatabase))
         return mysql.createConnection({
             host: this.#infoDatabase.host,
             user: this.#infoDatabase.username,
@@ -27,9 +30,8 @@ class DatabaseConfig extends ModulesService {
 
 module.exports = DatabaseConfig
 
-
 /**new DatabaseConfig().connectDatabase(function (errors) {
     if (errors) log.debug(errors.message)
-    else log.debug('connected')
+    else log.info('connected')
 })*/
 
